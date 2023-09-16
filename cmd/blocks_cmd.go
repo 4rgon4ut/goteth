@@ -85,7 +85,14 @@ var BlocksCommand = &cli.Command{
 			Usage:       "Port on which to expose prometheus metrics",
 			EnvVars:     []string{"ANALYZER_PROMETHEUS_PORT"},
 			DefaultText: "9080",
-		}},
+		},
+		&cli.StringFlag{
+			Name:        "env-file",
+			Usage:       "Load environment variables from a file",
+			EnvVars:     []string{"ANALYZER_ENV_FILE"},
+			DefaultText: ".env",
+		},
+	},
 }
 
 var logCmdChain = logrus.WithField(
