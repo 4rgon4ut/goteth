@@ -1,6 +1,8 @@
 package cmd
 
 import (
+	"fmt"
+	"log"
 	"os"
 	"os/signal"
 	"syscall"
@@ -105,8 +107,10 @@ var QueryTimeout = 90 * time.Second
 func LaunchBlockMetrics(c *cli.Context) error {
 
 	conf := config.NewAnalyzerConfig()
-	conf.Apply(c)
-
+	if err := conf.Apply(c); err != nil {
+		log.Fatal("can't configure analyzer: %w", err)
+	}
+	fmt.Printf("dfasfsdfdasfds %v", conf)
 	logrus.SetLevel(utils.ParseLogLevel(conf.LogLevel))
 
 	// generate the block analyzer
