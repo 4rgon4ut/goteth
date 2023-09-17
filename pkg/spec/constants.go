@@ -9,11 +9,11 @@ const (
 	BaseRewardFactor       = 64
 	BaseRewardPerEpoch     = 4
 	EffectiveBalanceInc    = 1000000000
-	SlotsPerEpoch          = 32
+	SlotsPerEpoch          = 16
 	ProposerRewardQuotient = 8
 	SlotsPerHistoricalRoot = 8192
-	SlotSeconds            = 12
-	EpochSlots             = 32
+	SlotSeconds            = 5
+	EpochSlots             = 16
 )
 
 /*
