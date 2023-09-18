@@ -18,12 +18,6 @@ services:
       --db-workers-num=${ANALYZER_DB_WORKERS_NUM}
       --download-mode=${ANALYZER_DOWNLOAD_MODE}
       --metrics=${ANALYZER_METRICS}
-      --prometheus-port=${BLOCK_PROMETHEUS_PORT:-9081}
+      --prometheus-port=${ANALYZER_PROMETHEUS_PORT:-9081}
     network_mode: 'host'
     restart: unless-stopped
-                
-
-                
-
-        
-        
