@@ -60,7 +60,9 @@ func (c *AnalyzerConfig) LoadFromEnv() error {
 
 func (c *AnalyzerConfig) Apply(ctx *cli.Context) error {
 	if ctx.IsSet("env-file") {
-		return c.LoadFromEnv()
+		if err := c.LoadFromEnv(); err != nil {
+			return err
+		}
 	}
 	// apply to the existing Default configuration the set flags
 	// log level
