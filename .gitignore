@@ -1,9 +1,10 @@
 results/
 eth2-state-analyzer
-.vscode/**
+.vscode
 test*.json
 .ipynb_checkpoints/**
 metrika/**
 .config
 *.csv
 .env
+build
