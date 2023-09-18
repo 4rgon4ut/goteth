@@ -8,16 +8,6 @@ services:
     init: true
     command: >-
       blocks
-      --log-level=${LOG_LEVEL}
-      --bn-endpoint=${BN_ENDPOINT}
-      --el-endpoint=${EL_ENDPOINT:-}
-      --init-slot=${INIT_SLOT}
-      --final-slot=${FINAL_SLOT}
-      --db-url=${DB_URL}
-      --workers-num=${WORKER_NUM}
-      --db-workers-num=${DB_WORKER_NUM}
-      --download-mode=${DOWNLOAD_MODE}
-      --metrics=${METRICS}
-      --prometheus-port=${PROMETHEUS_PORT:-9081}
+      --env-file
     network_mode: 'host'
     restart: unless-stopped
