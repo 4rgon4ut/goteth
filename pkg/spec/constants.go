@@ -6,7 +6,7 @@ Phase0
 
 const (
 	MaxEffectiveInc        = 32
-	BaseRewardFactor       = 64
+	BaseRewardFactor       = 25
 	BaseRewardPerEpoch     = 4
 	EffectiveBalanceInc    = 1000000000
 	SlotsPerEpoch          = 16
