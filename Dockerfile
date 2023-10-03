@@ -14,9 +14,10 @@ RUN go get
 RUN go build -o ./build/goteth
 
 
-FROM alpine:latest  
+FROM alpine:latest
 RUN apk --no-cache add ca-certificates
 WORKDIR /
+COPY --from=builder /app/.env ./
 COPY --from=builder /app/build/goteth ./
 COPY --from=builder /app/pkg/db/migrations ./pkg/db/migrations
 ENTRYPOINT ["/goteth"]

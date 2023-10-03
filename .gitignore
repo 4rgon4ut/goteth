@@ -1,4 +1,8 @@
-# DB test related python stuff
+
+results/
+eth2-state-analyzer
+.vscode
+test*.json
 .ipynb_checkpoints/**
 **/venv
 **/__pycache__
@@ -7,6 +11,9 @@
 results/
 metrika/**
 *.csv
+
+.env
+build
 test*.json
 
 # configurations

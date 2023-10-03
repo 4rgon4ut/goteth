@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"fmt"
 	"os"
 	"os/signal"
 	"syscall"
@@ -85,7 +86,12 @@ var BlocksCommand = &cli.Command{
 			Usage:       "Port on which to expose prometheus metrics",
 			EnvVars:     []string{"ANALYZER_PROMETHEUS_PORT"},
 			DefaultText: "9080",
-		}},
+		},
+		&cli.BoolFlag{
+			Name:  "env-file",
+			Usage: "Load environment variables from a file",
+		},
+	},
 }
 
 var logCmdChain = logrus.WithField(
@@ -98,7 +104,9 @@ var QueryTimeout = 90 * time.Second
 func LaunchBlockMetrics(c *cli.Context) error {
 
 	conf := config.NewAnalyzerConfig()
-	conf.Apply(c)
+	if err := conf.Apply(c); err != nil {
+		return fmt.Errorf("can't configure analyzer: %w", err)
+	}
 
 	logrus.SetLevel(utils.ParseLogLevel(conf.LogLevel))
 

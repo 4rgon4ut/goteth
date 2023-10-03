@@ -1,43 +1,69 @@
 package config
 
 import (
+	"fmt"
+
 	"github.com/attestantio/go-eth2-client/spec/phase0"
+	"github.com/joho/godotenv"
+	"github.com/mitchellh/mapstructure"
+	"github.com/spf13/viper"
+
 	cli "github.com/urfave/cli/v2"
 )
 
 type AnalyzerConfig struct {
-	LogLevel       string      `json:"log-level"`
-	InitSlot       phase0.Slot `json:"init-slot"`
-	FinalSlot      phase0.Slot `json:"final-slot"`
-	BnEndpoint     string      `json:"bn-endpoint"`
-	ElEndpoint     string      `json:"el-endpoint"`
-	DBUrl          string      `json:"db-url"`
-	DownloadMode   string      `json:"download-mode"`
-	WorkerNum      int         `json:"worker-num"`
-	DbWorkerNum    int         `json:"db-worker-num"`
-	Metrics        string      `json:"metrics"`
-	PrometheusPort int         `json:"prometheus-port"`
+	LogLevel       string      `json:"log-level" mapstructure:"LOG_LEVEL"`
+	InitSlot       phase0.Slot `json:"init-slot" mapstructure:"INIT_SLOT"`
+	FinalSlot      phase0.Slot `json:"final-slot" mapstructure:"FINAL_SLOT"`
+	BnEndpoint     string      `json:"bn-endpoint" mapstructure:"BN_ENDPOINT"`
+	ElEndpoint     string      `json:"el-endpoint" mapstructure:"EL_ENDPOINT"`
+	DBUrl          string      `json:"db-url" mapstructure:"DB_URL"`
+	DownloadMode   string      `json:"download-mode" mapstructure:"DOWNLOAD_MODE"`
+	WorkerNum      int         `json:"worker-num" mapstructure:"WORKER_NUM"`
+	DbWorkerNum    int         `json:"db-worker-num" mapstructure:"DB_WORKER_NUM"`
+	Metrics        string      `json:"metrics" mapstructure:"METRICS"`
+	PrometheusPort int         `json:"prometheus-port" mapstructure:"PROMETHEUS_PORT"`
 }
 
 // TODO: read from config-file
 func NewAnalyzerConfig() *AnalyzerConfig {
 	// Return Default values for the ethereum configuration
-	return &AnalyzerConfig{
-		LogLevel:       DefaultLogLevel,
-		InitSlot:       phase0.Slot(DefaultInitSlot),
-		FinalSlot:      phase0.Slot(DefaultFinalSlot),
-		BnEndpoint:     DefaultBnEndpoint,
-		ElEndpoint:     DefaultElEndpoint,
-		DBUrl:          DefaultDBUrl,
-		DownloadMode:   DefaultDownloadMode,
-		WorkerNum:      DefaultWorkerNum,
-		DbWorkerNum:    DefaultDbWorkerNum,
-		Metrics:        DefaultMetrics,
-		PrometheusPort: DefaultPrometheusPort,
-	}
+	return &AnalyzerConfig{}
 }
 
-func (c *AnalyzerConfig) Apply(ctx *cli.Context) {
+func (c *AnalyzerConfig) LoadFromEnv() error {
+	if err := godotenv.Overload(); err != nil {
+		return fmt.Errorf("can't load .env file: %w", err)
+	}
+
+	viper.AutomaticEnv()
+
+	// NOTE: workadound to load env vars
+	// see https://github.com/spf13/viper/issues/761
+	envKeysMap := &map[string]interface{}{}
+	if err := mapstructure.Decode(c, &envKeysMap); err != nil {
+		return err
+	}
+	for k := range *envKeysMap {
+		if err := viper.BindEnv(k); err != nil {
+			return err
+		}
+	}
+
+	// Viper unmarshals the loaded env varialbes into the struct
+	if err := viper.Unmarshal(c); err != nil {
+		return fmt.Errorf("can't unmarshal env vars to config: %w", err)
+	}
+
+	return nil
+}
+
+func (c *AnalyzerConfig) Apply(ctx *cli.Context) error {
+	if ctx.IsSet("env-file") {
+		if err := c.LoadFromEnv(); err != nil {
+			return err
+		}
+	}
 	// apply to the existing Default configuration the set flags
 	// log level
 	if ctx.IsSet("log-level") {
@@ -83,4 +109,5 @@ func (c *AnalyzerConfig) Apply(ctx *cli.Context) {
 	if ctx.IsSet("prometheus-port") {
 		c.PrometheusPort = ctx.Int("prometheus-port")
 	}
+	return nil
 }
