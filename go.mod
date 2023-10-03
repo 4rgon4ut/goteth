@@ -1,10 +1,11 @@
-module github.com/cortze/eth-cl-state-analyzer
+module github.com/migalabs/goteth
 
 go 1.19
 
 require (
 	github.com/attestantio/go-eth2-client v0.18.1
 	github.com/golang-migrate/migrate/v4 v4.16.2
+	github.com/golang/snappy v0.0.5-0.20220116011046-fa5810519dcb
 	github.com/jackc/pgx/v4 v4.18.1
 	github.com/joho/godotenv v1.5.1
 	github.com/pkg/errors v0.9.1
@@ -36,7 +37,6 @@ require (
 	github.com/hashicorp/hcl v1.0.0 // indirect
 	github.com/holiman/uint256 v1.2.2 // indirect
 	github.com/lib/pq v1.10.9 // indirect
-	github.com/magiconair/properties v1.8.7 // indirect
 	github.com/matttproud/golang_protobuf_extensions v1.0.4 // indirect
 	github.com/pelletier/go-toml/v2 v2.0.8 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
@@ -80,8 +80,13 @@ require (
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.18 // indirect
 	github.com/minio/sha256-simd v1.0.0 // indirect
+ 
 	github.com/mitchellh/mapstructure v1.5.0
 	github.com/prysmaticlabs/go-bitfield v0.0.0-20210809151128-385d8c5e3fb7
+
+	github.com/mitchellh/mapstructure v1.5.0 // indirect
+	github.com/prysmaticlabs/go-bitfield v0.0.0-20210809151128-385d8c5e3fb7 // indirect
+
 	github.com/r3labs/sse/v2 v2.10.0 // indirect
 	github.com/russross/blackfriday/v2 v2.1.0 // indirect
 	golang.org/x/crypto v0.10.0 // indirect

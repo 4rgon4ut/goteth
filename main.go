@@ -8,13 +8,13 @@ import (
 	"github.com/sirupsen/logrus"
 	cli "github.com/urfave/cli/v2"
 
-	"github.com/cortze/eth-cl-state-analyzer/cmd"
-	"github.com/cortze/eth-cl-state-analyzer/pkg/utils"
+	"github.com/migalabs/goteth/cmd"
+	"github.com/migalabs/goteth/pkg/utils"
 )
 
 var (
-	Version = "v0.0.1"
-	CliName = "Eth2 State Analyzer"
+	Version = "v2.0.0"
+	CliName = "GotEth"
 	log     = logrus.WithField(
 		"cli", "CliName",
 	)

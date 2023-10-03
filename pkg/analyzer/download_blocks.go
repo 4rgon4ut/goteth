@@ -6,9 +6,9 @@ import (
 
 	v1 "github.com/attestantio/go-eth2-client/api/v1"
 	"github.com/attestantio/go-eth2-client/spec/phase0"
-	"github.com/cortze/eth-cl-state-analyzer/pkg/db"
-	"github.com/cortze/eth-cl-state-analyzer/pkg/spec"
-	"github.com/cortze/eth-cl-state-analyzer/pkg/utils"
+	"github.com/migalabs/goteth/pkg/db"
+	"github.com/migalabs/goteth/pkg/spec"
+	"github.com/migalabs/goteth/pkg/utils"
 	"github.com/pkg/errors"
 )
 
@@ -210,8 +210,10 @@ func (s ChainAnalyzer) DownloadNewBlock(queue *StateQueue, slot phase0.Slot) {
 		for _, tx := range newBlock.ExecutionPayload.Transactions {
 			log.Tracef("sending a new tx task for slot %d", slot)
 			s.transactionTaskChan <- &TransactionTask{
-				Slot:        slot,
-				Transaction: tx,
+				Slot:           slot,
+				Transaction:    tx,
+				BlockNumber:    newBlock.ExecutionPayload.BlockNumber,
+				BlockTimestamp: newBlock.ExecutionPayload.Timestamp,
 			}
 		}
 	}
